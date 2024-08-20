@@ -11,7 +11,7 @@ tweb_app = Flask("Trader Journal")
 
 
 appconf = {
-    "OAUTH2_CILENT_ID": "978137491809-7q5570kd6faoe3v9ujesp3k8lhdqkgpg.apps.googleusercontent.com",
+    "OAUTH2_CILENT_ID": "",
     "OAUTH2_CILENT_SECRET": "",
     "OAUTH2_META_URL":"https://accounts.google.com/.well-known/openid-configuration",
     "FLASK_PORT": 5000
