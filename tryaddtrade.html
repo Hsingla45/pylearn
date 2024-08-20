@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<title>Trader's Journal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><style>
+body {font-family: "Roboto", sans-serif}
+.w3-bar-block .w3-bar-item {
+  padding: 16px;
+  font-weight: bold;
+}
+</style>
+<body>
+
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card" style="z-index:3;width:250px;" id="mySidebar">
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="#"><img src="{{ url_for('static', filename='logotj.png') }}" style="width:50% "></a>
+  <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close <i class="fa fa-remove"></i></a>
+  <a class="w3-bar-item w3-button w3-teal" href="/home">Home</a>
+  <a class="w3-bar-item w3-button" href="/adding-trade">Add Trade</a>
+  <a class="w3-bar-item w3-button" href="/fetch-open-trades">Open Positions</a>
+  <a class="w3-bar-item w3-button" href="/fetch-trades">View Journal</a>
+  <a class="w3-bar-item w3-button" href="/logout">Logout</a>
+  
+  <div>
+    <a class="w3-bar-item w3-button" onclick="myAccordion('demo')" href="javascript:void(0)">Search <i class="fa fa-caret-down"></i></a>
+    <div id="demo" class="w3-hide">
+      <a class="w3-bar-item w3-button" href="tradersearch.html">By Date</a>
+      <a class="w3-bar-item w3-button" href="tradersearch.html">By Symbol Name</a>
+      <a class="w3-bar-item w3-button" href="tradersearch.html">Setup</a>
+    </div>
+  </div>
+</nav>
+
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" id="myOverlay"></div>
+
+<div class="w3-main" style="margin-left:250px;">
+
+<div id="myTop" class="w3-container w3-top w3-theme w3-large">
+  <p><i class="fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge" onclick="w3_open()"></i>
+  <span id="myIntro" class="w3-hide">W3.CSS: Introduction</span></p>
+</div>
+
+<header class="w3-container w3-theme w3-padding-48 w3-center">
+  <h1 class="w3-xxxlarge">Welcome {{fname}}</h1>
+</header>
+
+<div class="w3-container w3-card-4 ">
+    <div class="w3-row-padding">
+
+        <h3>Add New Trade</h3>
+        <form action="/add-trade", method ="post">
+    
+            <div class="mb-3 mt-3">
+               <label for="Symbol Name" class="form-label">Symbol Name:</label>
+               <input type="text" class="form-control" id="Symbol Name" placeholder="Enter Symbol Name" name="Symbol Name">
+             </div>
+    
+            <div class="mb-3 mt-3">
+                <label for="Entry Price" class="form-label">Entry Price:</label>
+                <input type="text" class="form-control" id="Entry Price" placeholder="Enter Entry Price" name="Entry Price">
+            </div>
+    
+            <div class="mb-3 mt-3">
+              <label for="Exit Price" class="form-label">Exit Price:</label>
+              <input type="text" class="form-control" id="Exit Price" placeholder="Enter Exit Price" name="Exit Price">
+            </div>
+
+            <div class="mb-3 mt-3">
+              <label for="Quantity" class="form-label">Quantity:</label>
+              <input type="text" class="form-control" id="Quantity" placeholder="Enter Quantity" name="Quantity">
+            </div>
+
+            <div class="mb-3 mt-3">
+              <label for="PNL" class="form-label">PNL:</label>
+              <input type="text" class="form-control" id="PNL" placeholder="PNL" name="PNL">
+            </div>
+    
+            <label class="form-label">Status:</label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="radio1" name="Status" value="Open" checked>Open
+                <label class="form-check-label" for="radio1"></label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="radio2" name="Status" value="Closed">Closed
+                <label class="form-check-label" for="radio2"></label>
+            </div>
+
+            <label class="form-label">Setup:</label> 
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check1" name="Volume buzzer" value="Volume buzzer" checked>
+                <label class="form-check-label" for="check1">Volume buzzer</label>
+              </div>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check2" name="WTC" value="WTC">
+                <label class="form-check-label" for="check2">WTC</label>
+              </div>
+              
+    
+            <div class="mb-3 mt-3">
+                <label for="Remarks" class="form-label">Remarks:</label>
+                <input type="text" class="form-control" id="Remarks" placeholder="Enter Remarks" name="Remarks">
+              </div>
+    
+            <button type="submit" class="btn btn-primary">Add Trade</button>
+          </form>
+</div>
+
+<!-- <footer class="w3-container w3-theme" style="padding:32px">
+  <p>Footer information goes here</p>
+</footer> -->
+     
+</div>
+
+<script>
+// Open and close the sidebar on medium and small screens
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+// Change style of top container on scroll
+window.onscroll = function() {myFunction()};
+function myFunction() {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    document.getElementById("myTop").classList.add("w3-card-4", "w3-animate-opacity");
+    document.getElementById("myIntro").classList.add("w3-show-inline-block");
+  } else {
+    document.getElementById("myIntro").classList.remove("w3-show-inline-block");
+    document.getElementById("myTop").classList.remove("w3-card-4", "w3-animate-opacity");
+  }
+}
+
+// Accordions
+function myAccordion(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+    x.previousElementSibling.className += " w3-theme";
+  } else { 
+    x.className = x.className.replace("w3-show", "");
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace(" w3-theme", "");
+  }
+}
+</script>
+     
+</body>
+</html> 
